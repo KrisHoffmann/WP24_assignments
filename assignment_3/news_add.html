@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add News Item</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<?php include 'tpl/head.php'; ?>
+
+<form id="add-form">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+    <label for="content">Content:</label>
+    <textarea id="content" name="content" required></textarea>
+    <button type="submit">Add news item</button>
+</form>
+
+<?php include 'tpl/body_end.php'; ?>
+
+<script src="scripts/news_add.js"></script>
+</body>
+</html>
