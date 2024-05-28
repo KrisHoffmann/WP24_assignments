@@ -1,0 +1,138 @@
+/* Roulette table styles */
+#roulette-table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    font-size: 14px;
+}
+
+#roulette-table thead tr {
+    background-color: #f0f0f0;
+}
+
+#roulette-table th, #roulette-table td {
+    padding: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+#roulette-table th {
+    font-weight: bold;
+}
+
+#roulette-table td:first-child {
+    width: 20px;
+    background-color: #fff;
+}
+
+#roulette-table td:nth-child(2) {
+    width: 40px;
+}
+
+/* Make the table more compact */
+#roulette-table tr {
+    height: 30px;
+}
+
+/* Roulette wheel styles */
+#roulette-wheel {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #ccc;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+#roulette-wheel:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-image: radial-gradient(#fff 2px, transparent 2px), radial-gradient(#fff 2px, transparent 2px);
+    background-position: 0 0, 25px 25px;
+    background-size: 50px 50px;
+}
+
+#ball {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    box-shadow: 0 0 5px #333;
+}
+
+/* Betting area styles */
+#betting-area {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#bet-form {
+    display: inline-block;
+}
+
+/* Result area styles */
+#result-area {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Roulette table layout */
+#roulette-table {
+    border: none;
+    border-radius: 10px;
+    background-color: #333;
+    overflow: hidden;
+}
+
+#roulette-table thead {
+    display: none;
+}
+
+#roulette-table tbody {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#roulette-table tr {
+    width: 14.2857%; /* 100% / 7 (number of columns) */
+    height: 14.2857%; /* 100% / 7 (number of columns) */
+}
+
+#roulette-table td {
+    border: none;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#roulette-table td:hover {
+    background-color: #f0f0f0;
+}
+
+#roulette-table td:first-child {
+    background-color: #333;
+    color: #fff;
+    font-weight: normal;
+    cursor: default;
+}
+
+#roulette-table td:first-child:hover {
+    background-color: #333;
+}
+
