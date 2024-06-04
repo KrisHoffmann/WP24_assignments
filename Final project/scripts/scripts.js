@@ -95,20 +95,20 @@ document.addEventListener('DOMContentLoaded', () => {
         resultArea.textContent = `Winning number: ${winningNumber}!`;
 
         if (winningNumber === player1Number) {
-            chipsTallyPlayer1 += player1Bet
+            chipsTallyPlayer1 += player1Bet * 35;
             resultArea.style.backgroundColor = 'green';
-            resultArea.textContent = `Player 1 wins! ${player1Bet} chips. Player 1 tally: ${chipsTallyPlayer1}`;
+            resultArea.textContent = `Player 1 wins! ${player1Bet * 35} chips. Player 1 tally: ${chipsTallyPlayer1}`;
             resultAreaPlayer1.textContent = `Player 1 tally: ${chipsTallyPlayer1}`;
             resultAreaPlayer2.textContent = `Player 2 tally: ${chipsTallyPlayer2}`;
         } else if (winningNumber === player2Number) {
-            chipsTallyPlayer2 += player2Bet
+            chipsTallyPlayer2 += player2Bet * 35;
             resultArea.style.backgroundColor = 'green';
-            resultArea.textContent = `Player 2 wins! ${player2Bet} chips. Player 2 tally: ${chipsTallyPlayer2}`;
+            resultArea.textContent = `Player 2 wins! ${player2Bet * 35} chips. Player 2 tally: ${chipsTallyPlayer2}`;
             resultAreaPlayer1.textContent = `Player 1 tally: ${chipsTallyPlayer1}`;
             resultAreaPlayer2.textContent = `Player 2 tally: ${chipsTallyPlayer2}`;
         } else {
-            chipsTallyPlayer1 -= player1Bet
-            chipsTallyPlayer2 -= player2Bet
+            chipsTallyPlayer1 -= player1Bet;
+            chipsTallyPlayer2 -= player2Bet;
             resultArea.textContent += ` No winner!`;
             resultArea.style.backgroundColor = 'white';
             resultAreaPlayer1.textContent = `Player 1 tally: ${chipsTallyPlayer1}`;
