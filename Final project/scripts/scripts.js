@@ -56,6 +56,21 @@ function generateRouletteTable() {
         tdColor.style.backgroundColor = slot.color;
         tdNumber.textContent = slot.number;
 
+        // Add click event listener to each table cell
+        tr.addEventListener('click', () => {
+            // Set the selected number to the respective player's input field
+            const player1NumberInput = document.getElementById('player1-number');
+            const player2NumberInput = document.getElementById('player2-number');
+
+            if (player1NumberInput.value === '0') {
+                player1NumberInput.value = slot.number;
+                tdNumber.style.backgroundColor = 'yellow';
+            } else if (player2NumberInput.value === '0') {
+                player2NumberInput.value = slot.number;
+                tdNumber.style.backgroundColor = 'cyan';
+            }
+        });
+
         tr.appendChild(tdColor);
         tr.appendChild(tdNumber);
 
