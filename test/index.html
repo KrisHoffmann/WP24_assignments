@@ -5,8 +5,13 @@
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script>
     $(document).ready(function() {
-      $('#makeMove').click(function() {
+      $('#makeMove').click(function(event) {
+        event.preventDefault(); // Prevent form from submitting the traditional way
         var move = $('input[name="move"]:checked').val();
+        if (!move) {
+          alert("Please select a move.");
+          return;
+        }
         $.ajax({
           type: 'POST',
           url: 'game.php',
