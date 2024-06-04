@@ -132,4 +132,33 @@ document.addEventListener('DOMContentLoaded', () => {
             resultAreaPlayer2.style.backgroundColor = 'white';
         }
     });
+
+    const deletePlayer1BetButton = document.getElementById('delete-player1-bet');
+    const deletePlayer2BetButton = document.getElementById('delete-player2-bet');
+
+    deletePlayer1BetButton.addEventListener('click', () => {
+        document.getElementById('player1-bet').value = '0';
+        document.getElementById('player1-number').value = '0';
+        player1Bet = 0;
+        player1Number = 0;
+        // Switch the background color of yellow tdNumber cells back to white
+        document.querySelectorAll('#roulette-table td:nth-child(2)').forEach(td => {
+            if (td.style.backgroundColor === 'yellow') {
+                td.style.backgroundColor = 'white';
+            }
+        });
+    });
+
+    deletePlayer2BetButton.addEventListener('click', () => {
+        document.getElementById('player2-bet').value = '0';
+        document.getElementById('player2-number').value = '0';
+        player2Bet = 0;
+        player2Number = 0;
+        // Switch the background color of cyan tdNumber cells back to white
+        document.querySelectorAll('#roulette-table td:nth-child(2)').forEach(td => {
+            if (td.style.backgroundColor === 'cyan') {
+                td.style.backgroundColor = 'white';
+            }
+        });
+    })
 });
