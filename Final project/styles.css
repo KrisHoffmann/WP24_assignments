@@ -89,6 +89,20 @@
     font-weight: bold;
 }
 
+#result-area-player1 {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#result-area-player2 {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
 /* Roulette table layout */
 #roulette-table {
     border: none;

@@ -41,6 +41,8 @@ let player1Bet = 0;
 let player1Number = 0;
 let player2Bet = 0;
 let player2Number = 0;
+let chipsTallyPlayer1 = 100;
+let chipsTallyPlayer2 = 100;
 
 function generateRouletteTable() {
     const table = document.getElementById('roulette-table');
@@ -70,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const player2BetForm = document.getElementById('player2-bet-form');
     const spinButton = document.getElementById('spin-button');
     const resultArea = document.getElementById('result-area');
+    const resultAreaPlayer1 = document.getElementById('result-area-player1');
+    const resultAreaPlayer2 = document.getElementById('result-area-player2');
 
     player1BetForm.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -88,16 +92,29 @@ document.addEventListener('DOMContentLoaded', () => {
     spinButton.addEventListener('click', () => {
         const winningNumber = Math.floor(Math.random() * 37);
 
-        resultArea.textContent = `Winning number: ${winningNumber}`;
+        resultArea.textContent = `Winning number: ${winningNumber}!`;
 
         if (winningNumber === player1Number) {
-            player1BetForm.style.backgroundColor = 'green';
-            player1BetForm.textContent = `Player 1 wins! ${player1Bet * 2} chips.`;
+            chipsTallyPlayer1 += player1Bet
+            resultArea.style.backgroundColor = 'green';
+            resultArea.textContent = `Player 1 wins! ${player1Bet} chips. Player 1 tally: ${chipsTallyPlayer1}`;
+            resultAreaPlayer1.textContent = `Player 1 tally: ${chipsTallyPlayer1}`;
+            resultAreaPlayer2.textContent = `Player 2 tally: ${chipsTallyPlayer2}`;
         } else if (winningNumber === player2Number) {
-            player2BetForm.style.backgroundColor = 'green';
-            player2BetForm.textContent = `Player 2 wins! ${player2Bet * 2} chips.`;
+            chipsTallyPlayer2 += player2Bet
+            resultArea.style.backgroundColor = 'green';
+            resultArea.textContent = `Player 2 wins! ${player2Bet} chips. Player 2 tally: ${chipsTallyPlayer2}`;
+            resultAreaPlayer1.textContent = `Player 1 tally: ${chipsTallyPlayer1}`;
+            resultAreaPlayer2.textContent = `Player 2 tally: ${chipsTallyPlayer2}`;
         } else {
-            resultArea.textContent += ' No winner!';
+            chipsTallyPlayer1 -= player1Bet
+            chipsTallyPlayer2 -= player2Bet
+            resultArea.textContent += ` No winner!`;
+            resultArea.style.backgroundColor = 'white';
+            resultAreaPlayer1.textContent = `Player 1 tally: ${chipsTallyPlayer1}`;
+            resultAreaPlayer1.style.backgroundColor = 'white';
+            resultAreaPlayer2.textContent = `Player 2 tally: ${chipsTallyPlayer2}`;
+            resultAreaPlayer2.style.backgroundColor = 'white';
         }
     });
 });
