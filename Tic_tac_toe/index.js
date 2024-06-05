@@ -43,7 +43,9 @@ io.on("connection", (socket) => {
           let obj = {
             p1: p1obj,
             p2: p2obj,
+            sum:1
           };
+
           playingArray.push(obj);
   
           p1.socket.emit("find", { allPlayers: [obj], opponent: p2.name, value: "X" });
@@ -61,6 +63,22 @@ io.on("connection", (socket) => {
         }
       }
     });
+
+    socket.on("playing",(e)=>{
+      if(e.value=="X"){
+        let objToChange=playingArray.find(obj=>obj.p1.p1name===e.name)
+        objToChange.p1.p1move=e.id
+        objToChange.sum=objToChange.sum+1
+      }
+      else if(e.value=="O"){
+        let objToChange=playingArray.find(obj=>obj.p2.p2name===e.name)
+        objToChange.p2.p2move=e.id
+        objToChange.sum=objToChange.sum+1
+      }
+
+      io.emit("playing", {allPlayers:playingArray})
+    });
+
   });
 
 app.get("/",(req,res)=>{
