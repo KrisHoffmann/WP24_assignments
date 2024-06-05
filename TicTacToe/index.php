@@ -7,6 +7,10 @@ include __DIR__ . '/tpl/head.php';
 <div id="overlay"></div>
 <div id="message"></div>
 <div id="turn"></div>
+<div id="overlay"></div>
+<p>Player X Wins: <span id="playerXWins">0</span></p>
+<p>Player O Wins: <span id="playerOWins">0</span></p>
+<button id="reset">Reset Game</button>
 <button id="reset">Reset Game</button>
 
 <script src="scripts/script.js"></script>

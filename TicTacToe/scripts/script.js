@@ -63,12 +63,18 @@ function fetchGameState() {
 
             if (!gameOver) {
                 if (response.winner) {
+                    if (response.winner === 'X') {
+                        playerXWins.textContent = parseInt(playerXWins.textContent) + 1;
+                    } else if (response.winner === 'O') {
+                        playerOWins.textContent = parseInt(playerOWins.textContent) + 1;
+                    }
                     message.textContent = 'Player ' + response.winner + ' wins!';
                     overlay.style.display = 'block';
                     message.style.display = 'block';
                     setTimeout(hideMessage, 2000);
                     resetButton.style.display = 'block';
                     gameOver = true;
+                    setTimeout(resetGame, 2000);
                 } else if (response.draw) {
                     message.textContent = 'It\'s a draw!';
                     overlay.style.display = 'block';
@@ -76,6 +82,7 @@ function fetchGameState() {
                     setTimeout(hideMessage, 2000);
                     resetButton.style.display = 'block';
                     gameOver = true;
+                    setTimeout(resetGame, 2000);
                 } else {
                     resetButton.style.display = 'block'; // Always display the reset button
                 }
