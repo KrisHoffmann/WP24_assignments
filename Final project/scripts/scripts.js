@@ -37,10 +37,8 @@ const rouletteTableData = [
     { color: 'black', number: 3 },
 ];
 
-let player1Bet = 0;
-let player1Number = 0;
-let player2Bet = 0;
-let player2Number = 0;
+let player1Bets = [];
+let player2Bets = [];
 let chipsTallyPlayer1 = 100;
 let chipsTallyPlayer2 = 100;
 
@@ -58,7 +56,6 @@ function generateRouletteTable() {
 
         // Add click event listener to each table cell
         tr.addEventListener('click', () => {
-            // Set the selected number to the respective player's input field
             const player1NumberInput = document.getElementById('player1-number');
             const player2NumberInput = document.getElementById('player2-number');
 
@@ -73,11 +70,29 @@ function generateRouletteTable() {
 
         tr.appendChild(tdColor);
         tr.appendChild(tdNumber);
-
         tbody.appendChild(tr);
     });
 
     table.appendChild(tbody);
+}
+
+function displayBets() {
+    const player1BetList = document.getElementById('player1-bet-list');
+    const player2BetList = document.getElementById('player2-bet-list');
+
+    player1BetList.innerHTML = '';
+    player1Bets.forEach(bet => {
+        const betDiv = document.createElement('div');
+        betDiv.textContent = `Bet: ${bet.amount}, Number: ${bet.number}`;
+        player1BetList.appendChild(betDiv);
+    });
+
+    player2BetList.innerHTML = '';
+    player2Bets.forEach(bet => {
+        const betDiv = document.createElement('div');
+        betDiv.textContent = `Bet: ${bet.amount}, Number: ${bet.number}`;
+        player2BetList.appendChild(betDiv);
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -92,51 +107,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
     player1BetForm.addEventListener('submit', (event) => {
         event.preventDefault();
-
-        player1Bet = parseInt(document.getElementById('player1-bet').value);
-        player1Number = parseInt(document.getElementById('player1-number').value);
+        const amount = parseInt(document.getElementById('player1-bet').value);
+        const number = parseInt(document.getElementById('player1-number').value);
+        player1Bets.push({ amount, number });
+        displayBets();
     });
 
     player2BetForm.addEventListener('submit', (event) => {
         event.preventDefault();
-
-        player2Bet = parseInt(document.getElementById('player2-bet').value);
-        player2Number = parseInt(document.getElementById('player2-number').value);
+        const amount = parseInt(document.getElementById('player2-bet').value);
+        const number = parseInt(document.getElementById('player2-number').value);
+        player2Bets.push({ amount, number });
+        displayBets();
     });
 
     spinButton.addEventListener('click', () => {
         const winningNumber = Math.floor(Math.random() * 37);
-
         resultArea.textContent = `Winning number: ${winningNumber}!`;
 
-        if (winningNumber === player1Number && winningNumber === player2Number) {
-            chipsTallyPlayer1 += player1Bet * 35;
-            chipsTallyPlayer2 += player2Bet * 35;
+        let player1Winnings = 0;
+        let player2Winnings = 0;
+
+        player1Bets.forEach(bet => {
+            if (bet.number === winningNumber) {
+                player1Winnings += bet.amount * 35;
+            } else {
+                player1Winnings -= bet.amount;
+            }
+        });
+
+        player2Bets.forEach(bet => {
+            if (bet.number === winningNumber) {
+                player2Winnings += bet.amount * 35;
+            } else {
+                player2Winnings -= bet.amount;
+            }
+        });
+
+        chipsTallyPlayer1 += player1Winnings;
+        chipsTallyPlayer2 += player2Winnings;
+
+        resultAreaPlayer1.textContent = `Player 1 tally: ${chipsTallyPlayer1}`;
+        resultAreaPlayer2.textContent = `Player 2 tally: ${chipsTallyPlayer2}`;
+
+        if (player1Winnings > 0 && player2Winnings > 0) {
             resultArea.style.backgroundColor = 'green';
-            resultArea.textContent = `Both players win ${player1Bet * 35} chips! Player 1 tally: ${chipsTallyPlayer1}, Player 2 tally: ${chipsTallyPlayer2} `;
-            resultAreaPlayer1.textContent = `Player 1 tally: ${chipsTallyPlayer1}`;
-            resultAreaPlayer2.textContent = `Player 2 tally: ${chipsTallyPlayer2}`;
-        } else if (winningNumber === player1Number) {
-            chipsTallyPlayer1 += player1Bet * 35;
+            resultArea.textContent += ` Both players win!`;
+        } else if (player1Winnings > 0) {
             resultArea.style.backgroundColor = 'green';
-            resultArea.textContent = `Player 1 wins! ${player1Bet * 35} chips. Player 1 tally: ${chipsTallyPlayer1}`;
-            resultAreaPlayer1.textContent = `Player 1 tally: ${chipsTallyPlayer1}`;
-            resultAreaPlayer2.textContent = `Player 2 tally: ${chipsTallyPlayer2}`;
-        } else if (winningNumber === player2Number) {
-            chipsTallyPlayer2 += player2Bet * 35;
+            resultArea.textContent += ` Player 1 wins!`;
+        } else if (player2Winnings > 0) {
             resultArea.style.backgroundColor = 'green';
-            resultArea.textContent = `Player 2 wins! ${player2Bet * 35} chips. Player 2 tally: ${chipsTallyPlayer2}`;
-            resultAreaPlayer1.textContent = `Player 1 tally: ${chipsTallyPlayer1}`;
-            resultAreaPlayer2.textContent = `Player 2 tally: ${chipsTallyPlayer2}`;
+            resultArea.textContent += ` Player 2 wins!`;
         } else {
-            chipsTallyPlayer1 -= player1Bet;
-            chipsTallyPlayer2 -= player2Bet;
-            resultArea.textContent += ` No winner!`;
             resultArea.style.backgroundColor = 'white';
-            resultAreaPlayer1.textContent = `Player 1 tally: ${chipsTallyPlayer1}`;
-            resultAreaPlayer1.style.backgroundColor = 'white';
-            resultAreaPlayer2.textContent = `Player 2 tally: ${chipsTallyPlayer2}`;
-            resultAreaPlayer2.style.backgroundColor = 'white';
+            resultArea.textContent += ` No winner!`;
         }
     });
 
@@ -146,9 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
     deletePlayer1BetButton.addEventListener('click', () => {
         document.getElementById('player1-bet').value = '0';
         document.getElementById('player1-number').value = '0';
-        player1Bet = 0;
-        player1Number = 0;
-        // Switch the background color of yellow tdNumber cells back to white
+        player1Bets = [];
+        displayBets();
         document.querySelectorAll('#roulette-table td:nth-child(2)').forEach(td => {
             if (td.style.backgroundColor === 'yellow') {
                 td.style.backgroundColor = 'white';
@@ -159,13 +183,12 @@ document.addEventListener('DOMContentLoaded', () => {
     deletePlayer2BetButton.addEventListener('click', () => {
         document.getElementById('player2-bet').value = '0';
         document.getElementById('player2-number').value = '0';
-        player2Bet = 0;
-        player2Number = 0;
-        // Switch the background color of cyan tdNumber cells back to white
+        player2Bets = [];
+        displayBets();
         document.querySelectorAll('#roulette-table td:nth-child(2)').forEach(td => {
             if (td.style.backgroundColor === 'cyan') {
                 td.style.backgroundColor = 'white';
             }
         });
-    })
+    });
 });

@@ -25,6 +25,10 @@
             <button type="submit">Place Bet</button>
             <button type="button" id="delete-player1-bet">Delete Bet</button>
         </form>
+        <div id="player1-bets">
+            <h3>Player 1 Bets</h3>
+            <div id="player1-bet-list"></div>
+        </div>
         <h2>Player 2</h2>
         <form id="player2-bet-form">
             <label for="player2-bet">Bet:</label>
@@ -34,14 +38,15 @@
             <button type="submit">Place Bet</button>
             <button type="button" id="delete-player2-bet">Delete Bet</button>
         </form>
+        <div id="player2-bets">
+            <h3>Player 2 Bets</h3>
+            <div id="player2-bet-list"></div>
+        </div>
         <button id="spin-button">Spin</button>
     </div>
-    <div id="result-area">
-    </div>
-    <div id="result-area-player1">
-    </div>
-    <div id="result-area-player2">
-    </div>
+    <div id="result-area"></div>
+    <div id="result-area-player1"></div>
+    <div id="result-area-player2"></div>
 </div>
 <script src="scripts/scripts.js"></script>
 </body>

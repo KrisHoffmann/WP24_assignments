@@ -149,3 +149,14 @@
 #roulette-table td:first-child:hover {
     background-color: #333;
 }
+
+#player1-bet-list,
+#player2-bet-list {
+    margin: 0;
+    padding: 0;
+}
+
+#player1-bet-list div,
+#player2-bet-list div {
+    margin: 5px 0;
+}
