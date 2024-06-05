@@ -14,9 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['index']) && isset($_P
     $player = $_POST['player'];
 
     $gameState = getGameState($filename);
-    if ($gameState['board'][$index] === '') {
+    if ($gameState['board'][$index] === '' && $gameState['currentPlayer'] === $player) {
         $gameState['board'][$index] = $player;
         $gameState = checkGameState($gameState, $player);
+        $gameState['currentPlayer'] = $player === 'X' ? 'O' : 'X';
         saveGameState($filename, $gameState);
         echo json_encode($gameState);
     }
@@ -42,7 +43,8 @@ function resetGameState($filename) {
     $initialState = [
         'board' => array_fill(0, 9, ''),
         'winner' => null,
-        'draw' => false
+        'draw' => false,
+        'currentPlayer' => 'X'
     ];
     saveGameState($filename, $initialState);
 }
