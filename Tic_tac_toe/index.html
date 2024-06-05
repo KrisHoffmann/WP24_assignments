@@ -25,6 +25,8 @@
 
         <button id="find">Search for a player</button>
 
+        <div id="loading" style="display: none;">Loading...</div>
+
         <div id="bigCont">
             <div id="cont">
                 <button id="btn1" class="btn"></button>
@@ -39,6 +41,7 @@
             </div>
         </div>
     </body>
+    <script src="/socket.io/socket.io.js"></script>
     <script>
     document.getElementById("bigCont").style.display="none"
     document.getElementById("userCont").style.display="none"
@@ -50,53 +53,54 @@
 
     let name;
 
-    document.getElementById("find").addEventListener("click",function(){
-        name=document.getElementById("name").value
+document.getElementById("find").addEventListener("click", function() {
+  name = document.getElementById("name").value
 
-        document.getElementById("user").innerText=name
+  document.getElementById("user").innerText = name
 
-        if(name==null || name==''){
-            alert("enter a name")
-        }
+  if (name == null || name == '') {
+    alert("enter a name")
+  } else {
+    document.getElementById("loading").style.display = "block"
+    socket.emit("find", { name: name })
+    document.getElementById("find").disabled = true
+  }
+})
 
-        else{
-            socket.emit("find",{name:name})
+socket.on("find", (e) => {
+  console.log("Find event received", e);
 
-            document.getElementById("find").disable=true
-        }
-        
-    })
+  if (e.message) {
+    alert(e.message);
+  } else {
+    console.log("Match found, updating game state");
 
-    socket.on("find",(e)=>{
+    let allPlayersArray = e.allPlayers;
+    console.log(allPlayersArray);
 
-        let allPlayersArray=e.allPlayers
-        console.log(allPlayersArray)
+    document.getElementById("userCont").style.display = "block";
+    document.getElementById("oppNameCont").style.display = "block";
+    document.getElementById("valueCont").style.display = "block";
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("name").style.display = "none";
+    document.getElementById("find").style.display = "none";
+    document.getElementById("enterName").style.display = "none";
+    document.getElementById("bigCont").style.display = "block";
+    document.getElementById("whosTurn").style.display = "block";
+    document.getElementById("whosTurn").innerText = "X's Turn";
 
-        document.getElementById("userCont").style.display = "block"
-        document.getElementById("oppNameCont").style.display = "block"
-        document.getElementById("valueCont").style.display = "block"
-        document.getElementById("name").style.display = "none"
-        document.getElementById("find").style.display = "none"
-        document.getElementById("enterName").style.display = "none"
-        document.getElementById("bigcont").style.display = "block"
-        document.getElementById("whosTurn").style.display = "block"
-        document.getElementById("whosTurn").innerText = "X's Turn"
+    let oppName;
+    let value;
 
+    const foundObj = allPlayersArray[0];
 
-        let oppName
-        let value
+    foundObj.p1.p1name == `${name}` ? oppname = foundObj.p2.p2name : oppname = foundObj.p1.p1name
+    foundObj.p1.p1name == `${name}` ? value = foundObj.p2.p2value : value = foundObj.p1.p1value
 
-        const foundObj=allPlayersArray.find(obj=>obj.p1.p1name=='${name}' || obj.p2.p2name=='${name}')
-
-        foundObj.p1.p1name=='${name}' ? oppName=foundObj.p2.p2name : oppName=foundObj.p1.p1name
-        foundObj.p1.p1name=='${name}' ? value=foundObj.p2.p2value : value=foundObj.p1.p1value
-
-        document.getElementById("oppName").innerText=oppName
-        document.getElementById("value").innerText=value
-
-
-
-    })
+    document.getElementById("oppName").innerText = oppName;
+    document.getElementById("value").innerText = value;
+  }
+});
     
     </script>
 
