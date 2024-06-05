@@ -105,26 +105,70 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultAreaPlayer1 = document.getElementById('result-area-player1');
     const resultAreaPlayer2 = document.getElementById('result-area-player2');
 
+    // Event listener for submitting player 1 bet form
     player1BetForm.addEventListener('submit', (event) => {
         event.preventDefault();
         const amount = parseInt(document.getElementById('player1-bet').value);
         const number = parseInt(document.getElementById('player1-number').value);
         player1Bets.push({ amount, number });
         displayBets();
+        // Change background color of selected number on table
+        const tableCells = document.querySelectorAll('#roulette-table td:nth-child(2)');
+        tableCells.forEach(cell => {
+            if (parseInt(cell.textContent) === number) {
+                cell.style.backgroundColor = 'yellow';
+                if (player2Bets.some(bet => bet.number === number)) {
+                    cell.style.backgroundColor = 'lightgreen'; // Both players bet on the same number
+                }
+            }
+        });
     });
 
+    // Event listener for submitting player 2 bet form
     player2BetForm.addEventListener('submit', (event) => {
         event.preventDefault();
         const amount = parseInt(document.getElementById('player2-bet').value);
         const number = parseInt(document.getElementById('player2-number').value);
         player2Bets.push({ amount, number });
         displayBets();
+        // Change background color of selected number on table
+        const tableCells = document.querySelectorAll('#roulette-table td:nth-child(2)');
+        tableCells.forEach(cell => {
+            if (parseInt(cell.textContent) === number) {
+                cell.style.backgroundColor = 'cyan';
+                if (player1Bets.some(bet => bet.number === number)) {
+                    cell.style.backgroundColor = 'lightgreen'; // Both players bet on the same number
+                }
+            }
+        });
+    });
+
+    document.getElementById('place-bet-player1').addEventListener('click', () => {
+        const number = parseInt(document.getElementById('player1-number').value);
+        const tableCells = document.querySelectorAll('#roulette-table td:nth-child(2)');
+        tableCells.forEach(cell => {
+            if (parseInt(cell.textContent) === number) {
+                cell.style.backgroundColor = 'yellow';
+            }
+        });
+    });
+
+    document.getElementById('place-bet-player2').addEventListener('click', () => {
+        const number = parseInt(document.getElementById('player2-number').value);
+        const tableCells = document.querySelectorAll('#roulette-table td:nth-child(2)');
+        tableCells.forEach(cell => {
+            if (parseInt(cell.textContent) === number) {
+                cell.style.backgroundColor = 'cyan';
+            }
+        });
     });
 
     spinButton.addEventListener('click', () => {
         const winningNumber = Math.floor(Math.random() * 37);
+
         resultArea.textContent = `Winning number: ${winningNumber}!`;
 
+        // Calculate player winnings
         let player1Winnings = 0;
         let player2Winnings = 0;
 
@@ -168,26 +212,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const deletePlayer1BetButton = document.getElementById('delete-player1-bet');
     const deletePlayer2BetButton = document.getElementById('delete-player2-bet');
 
+    // Event listener for deleting player 1 bet
     deletePlayer1BetButton.addEventListener('click', () => {
         document.getElementById('player1-bet').value = '0';
         document.getElementById('player1-number').value = '0';
         player1Bets = [];
         displayBets();
-        document.querySelectorAll('#roulette-table td:nth-child(2)').forEach(td => {
-            if (td.style.backgroundColor === 'yellow') {
-                td.style.backgroundColor = 'white';
+        // Reset background color of player 1's table cells only
+        const tableCells = document.querySelectorAll('#roulette-table td:nth-child(2)');
+        tableCells.forEach(cell => {
+            const number = parseInt(cell.textContent);
+            if (player2Bets.some(bet => bet.number === number)) {
+                cell.style.backgroundColor = 'cyan'; //
+            } else {
+                cell.style.backgroundColor = 'white'; //
             }
         });
     });
 
+    // Event listener for deleting player 2 bet
     deletePlayer2BetButton.addEventListener('click', () => {
         document.getElementById('player2-bet').value = '0';
         document.getElementById('player2-number').value = '0';
         player2Bets = [];
         displayBets();
-        document.querySelectorAll('#roulette-table td:nth-child(2)').forEach(td => {
-            if (td.style.backgroundColor === 'cyan') {
-                td.style.backgroundColor = 'white';
+        // Reset background color of player 2's table cells only
+        const tableCells = document.querySelectorAll('#roulette-table td:nth-child(2)');
+        tableCells.forEach(cell => {
+            const number = parseInt(cell.textContent);
+            if (player1Bets.some(bet => bet.number === number)) {
+                cell.style.backgroundColor = 'yellow';
+            } else {
+                cell.style.backgroundColor = 'white';
             }
         });
     });
