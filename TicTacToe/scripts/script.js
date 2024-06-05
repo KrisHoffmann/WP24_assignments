@@ -8,6 +8,13 @@ const player = urlParams.get('player');
 let currentPlayer;
 let gameOver = false;
 
+// Sound effects
+let moveSound = new Audio('sounds/move.mp3');
+let winSound = new Audio('sounds/win.mp3');
+let drawSound = new Audio('sounds/draw.mp3');
+let loseSound = new Audio('sounds/lose.mp3');
+
+
 if (!player || (player !== 'X' && player !== 'O')) {
     alert('Please provide a valid player in the URL, e.g., ?player=X or ?player=O');
     throw new Error('Invalid player');
@@ -36,6 +43,7 @@ function makeMove(event) {
 
     if (cell.textContent === '' && !message.textContent.includes('wins') && currentPlayer === player && !gameOver) {
         sendMove(index, player);
+        moveSound.play();
     }
 }
 
@@ -71,6 +79,7 @@ function fetchGameState() {
                     message.textContent = 'Player ' + response.winner + ' wins!';
                     overlay.style.display = 'block';
                     message.style.display = 'block';
+                    winSound.play();
                     setTimeout(hideMessage, 2000);
                     resetButton.style.display = 'block';
                     gameOver = true;
@@ -79,6 +88,7 @@ function fetchGameState() {
                     message.textContent = 'It\'s a draw!';
                     overlay.style.display = 'block';
                     message.style.display = 'block';
+                    drawSound.play();
                     setTimeout(hideMessage, 2000);
                     resetButton.style.display = 'block';
                     gameOver = true;
