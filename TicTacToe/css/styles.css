@@ -1,0 +1,32 @@
+#board {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(3, 100px);
+    grid-gap: 5px;
+}
+.cell {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    border: 1px solid #000;
+    cursor: pointer;
+}
+#reset {
+    margin-top: 20px;
+    display: none;
+}
+
+h1 {
+    text-align: center;
+}
+
+p {
+    text-align: center;
+}
+
+.footer-text {
+    font-size: 8px;
+}

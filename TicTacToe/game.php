@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$filename = 'game_state.json';
+$filename = 'data/game_state.json';
 
 if (isset($_POST['reset'])) {
     resetGameState($filename);
