@@ -4,6 +4,7 @@
     grid-template-columns: repeat(3, 100px);
     grid-gap: 5px;
 }
+
 .cell {
     width: 100px;
     height: 100px;
@@ -13,10 +14,6 @@
     font-size: 24px;
     border: 1px solid #000;
     cursor: pointer;
-}
-#reset {
-    margin-top: 20px;
-    display: none;
 }
 
 h1 {
@@ -28,24 +25,30 @@ p {
 }
 
 .footer-text {
+    margin-top: 95px;
     font-size: 8px;
 }
 
+#turn {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 #message {
-     display: none;
-     position: absolute;
-     top: 50%;
-     left: 50%;
-     transform: translate(-50%, -50%);
-     padding: 20px;
-     background-color: white;
-     border: 2px solid black;
-     border-radius: 10px;
-     text-align: center;
-     z-index: 10;
-     font-size: 24px;
-     animation: pop-up 0.5s ease-out forwards;
- }
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 10;
+    font-size: 24px;
+    animation: pop-up 0.5s ease-out forwards;
+}
 
 @keyframes pop-up {
     0% {
@@ -65,4 +68,25 @@ p {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 5;
+}
+
+#scoreboard {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    padding: 10px;
+    border: 2px;
+    border-radius: 10px;
+    z-index: 10;
+}
+
+#scoreboard #reset {
+    display: block;
+    margin: 10px auto;
+}
+
+#scoreboard p {
+    text-align: center;
+    margin: 0;
 }
