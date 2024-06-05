@@ -1,5 +1,6 @@
 #board {
     display: grid;
+    justify-content: center;
     grid-template-columns: repeat(3, 100px);
     grid-gap: 5px;
 }
@@ -16,4 +17,12 @@
 #reset {
     margin-top: 20px;
     display: none;
+}
+
+h1 {
+    text-align: center;
+}
+
+p {
+    text-align: center;
 }
