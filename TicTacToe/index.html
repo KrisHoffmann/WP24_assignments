@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Tic Tac Toe</h1>
+<div id="board"></div>
+<div id="message"></div>
+<button id="reset">Reset Game</button>
+
+<script>
+  let board = document.getElementById('board');
+  let message = document.getElementById('message');
+  let resetButton = document.getElementById('reset');
+  let currentPlayer = 'X';
+
+  function createBoard() {
+    board.innerHTML = '';
+    for (let i = 0; i < 9; i++) {
+      let cell = document.createElement('div');
+      cell.classList.add('cell');
+      cell.dataset.index = i;
+      cell.addEventListener('click', makeMove);
+      board.appendChild(cell);
+    }
+    message.textContent = '';
+    resetButton.style.display = 'none';
+    fetchGameState();
+  }
+
+  function makeMove(event) {
+    let cell = event.target;
+    let index = cell.dataset.index;
+
+    if (cell.textContent === '' && !message.textContent.includes('wins')) {
+      sendMove(index, currentPlayer);
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
+  }
+
+  function sendMove(index, player) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', 'game.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        fetchGameState();
+      }
+    };
+    xhr.send('index=' + index + '&player=' + player);
+  }
+
+  function fetchGameState() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'game.php', true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        let response = JSON.parse(xhr.responseText);
+        updateBoard(response.board);
+        if (response.winner) {
+          message.textContent = 'Player ' + response.winner + ' wins!';
+          resetButton.style.display = 'block';
+        } else if (response.draw) {
+          message.textContent = 'It\'s a draw!';
+          resetButton.style.display = 'block';
+        }
+      }
+    };
+    xhr.send();
+  }
+
+  function updateBoard(boardState) {
+    let cells = document.querySelectorAll('.cell');
+    cells.forEach((cell, index) => {
+      cell.textContent = boardState[index];
+    });
+  }
+
+  function resetGame() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', 'game.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        createBoard();
+      }
+    };
+    xhr.send('reset=true');
+  }
+
+  resetButton.addEventListener('click', resetGame);
+
+  createBoard();
+  setInterval(fetchGameState, 1000); // Poll the server every second
+</script>
+</body>
+</html>
