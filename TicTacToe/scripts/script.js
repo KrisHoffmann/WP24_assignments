@@ -68,7 +68,12 @@ function fetchGameState() {
             let response = JSON.parse(xhr.responseText);
             updateBoard(response.board);
             currentPlayer = response.currentPlayer;
-            turnDisplay.textContent = currentPlayer === 'X' ? 'Player 1\'s turn (X)' : 'Player 2\'s turn (O)';
+
+            if (currentPlayer === player) {
+                turnDisplay.textContent = 'Your turn';
+            } else {
+                turnDisplay.textContent = currentPlayer === 'X' ? 'Player 1\'s turn (X)' : 'Player 2\'s turn (O)';
+            }
 
             if (!gameOver) {
                 if (response.winner && !hasWinner) { // checking for a winner
