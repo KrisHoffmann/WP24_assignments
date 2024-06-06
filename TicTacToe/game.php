@@ -4,7 +4,7 @@ session_start();
 $filename = 'data/game_state.json';
 
 if (isset($_POST['reset'])) {
-    $startPlayer = $_POST['startPlayer'] ?? 'X'; // Default to 'X' if not provided
+    $startPlayer = $_POST['startPlayer'] ?? 'X'; // default starting player to 'X' if not provided
     resetGameState($filename, $startPlayer);
     echo json_encode(['status' => 'reset']);
     exit;
