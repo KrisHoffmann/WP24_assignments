@@ -4,7 +4,8 @@ session_start();
 $filename = 'data/game_state.json';
 
 if (isset($_POST['reset'])) {
-    resetGameState($filename);
+    $startPlayer = $_POST['startPlayer'] ?? 'X'; // Default to 'X' if not provided
+    resetGameState($filename, $startPlayer);
     echo json_encode(['status' => 'reset']);
     exit;
 }
@@ -30,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 function getGameState($filename) {
     if (!file_exists($filename)) {
-        resetGameState($filename);
+        resetGameState($filename, 'X');
     }
     return json_decode(file_get_contents($filename), true);
 }
@@ -39,12 +40,12 @@ function saveGameState($filename, $gameState) {
     file_put_contents($filename, json_encode($gameState));
 }
 
-function resetGameState($filename) {
+function resetGameState($filename, $startPlayer) {
     $initialState = [
         'board' => array_fill(0, 9, ''),
         'winner' => null,
         'draw' => false,
-        'currentPlayer' => 'X'
+        'currentPlayer' => $startPlayer
     ];
     saveGameState($filename, $initialState);
 }

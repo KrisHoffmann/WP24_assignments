@@ -7,13 +7,13 @@ const urlParams = new URLSearchParams(window.location.search);
 const player = urlParams.get('player');
 let currentPlayer;
 let gameOver = false;
+let lastLoser = 'O'; // Default to 'O' so 'X' starts the first game
 
 // Sound effects
 let moveSound = new Audio('sounds/move.mp3');
 let winSound = new Audio('sounds/win.mp3');
 let drawSound = new Audio('sounds/draw.mp3');
 let loseSound = new Audio('sounds/lose.mp3');
-
 
 if (!player || (player !== 'X' && player !== 'O')) {
     alert('Please provide a valid player in the URL, e.g., ?player=X or ?player=O');
@@ -73,8 +73,10 @@ function fetchGameState() {
                 if (response.winner) {
                     if (response.winner === 'X') {
                         playerXWins.textContent = parseInt(playerXWins.textContent) + 1;
+                        lastLoser = 'O'; // O lost
                     } else if (response.winner === 'O') {
                         playerOWins.textContent = parseInt(playerOWins.textContent) + 1;
+                        lastLoser = 'X'; // X lost
                     }
                     message.textContent = 'Player ' + response.winner + ' wins!';
                     overlay.style.display = 'block';
@@ -118,7 +120,7 @@ function resetGame() {
             createBoard();
         }
     };
-    xhr.send('reset=true');
+    xhr.send('reset=true&startPlayer=' + lastLoser);
 }
 
 function hideMessage() {

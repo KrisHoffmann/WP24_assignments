@@ -70,12 +70,11 @@
   socket.on("find", (e) => {
     console.log("Find event received", e);
 
-    if (e.message) {
-      alert(e.message);
-    } else {
+    let allPlayersArray = e.allPlayers;
+
+    if (name != '') {
       console.log("Match found, updating game state");
 
-      let allPlayersArray = e.allPlayers;
       console.log(allPlayersArray);
 
       document.getElementById("userCont").style.display = "block";
@@ -103,7 +102,7 @@
 
   document.querySelectorAll(".btn").forEach(e=>{
     e.addEventListener("click",function(){
-      let value =document.getElementById("value").innerText
+      let value = document.getElementById("value").innerText
       e.innerText=value
 
       socket.emit("playing",{value:value,id:e.id,name:name})
@@ -112,7 +111,7 @@
   })
 
   socket.on("playing", (e)=>{
-    const foundObj = (e.allPlayers).find(obj => obj.p1.p1name == `${name}` || obj.p2.p2name == `${name}`);
+    const foundObj = (e.allPlayersAe).find(obj => obj.p1.p1name == `${name}` || obj.p2.p2name == `${name}`);
     p1id=foundObj.p1.p1move
     p2id=foundObj.p2.p2move
 
