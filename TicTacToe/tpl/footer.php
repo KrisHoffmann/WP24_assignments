@@ -1,4 +1,7 @@
 <footer>
-    <p class="footer-text">This game is brought to you by group 4</p>
+    <div class="footer-container">
+        <p class="footer-text">This game is brought to you by group 4</p>
+    </div>
 </footer>
+</div>
 </html>

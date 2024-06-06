@@ -1,3 +1,60 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: radial-gradient(ellipse at bottom, #0d1d31 0%, #0c0d13 100%);
+    overflow: hidden;
+}
+
+h1, h3 {
+    z-index: 100;
+    position: relative;
+    color: white;
+    opacity: .5;
+}
+
+p {
+    color: white;
+}
+
+.container {
+    position: relative;
+}
+
+header, footer {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    text-align: center;
+}
+
+header {
+    top: -6%;
+}
+
+footer {
+    bottom: 0;
+}
+
+.footer-text {
+    font-size: 8px;
+    opacity: 0.5;
+}
+
+#game-container {
+    background-color: #000;
+    color: #fff;
+    opacity: .5;
+    margin: 20px auto;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 50px;
+    z-index: 100;
+    position: relative;
+    text-align: center;
+}
+
 #board {
     display: grid;
     justify-content: center;
@@ -12,26 +69,30 @@
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    border: 1px solid #000;
+    border: 1px solid white;
     cursor: pointer;
 }
 
-h1 {
-    text-align: center;
+#scoreboard #reset {
+    display: block;
+    margin: 10px auto;
 }
 
-p {
+#scoreboard p {
     text-align: center;
+    margin-top: 10px;
 }
 
-.footer-text {
-    margin-top: 100px;
-    font-size: 8px;
+button {
+    padding: 10px 20px;
+    border: 2px;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
 #turn {
-    text-align: center;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    color: white;
 }
 
 #message {
@@ -41,6 +102,7 @@ p {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
+    color: black;
     background-color: white;
     border: 2px solid black;
     border-radius: 10px;
@@ -68,25 +130,4 @@ p {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 5;
-}
-
-#scoreboard {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white;
-    padding: 10px;
-    border: 2px;
-    border-radius: 8px;
-    z-index: 10;
-}
-
-#scoreboard #reset {
-    display: block;
-    margin: 10px auto;
-}
-
-#scoreboard p {
-    text-align: center;
-    margin: 0;
 }
