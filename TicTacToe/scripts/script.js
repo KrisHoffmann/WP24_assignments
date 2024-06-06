@@ -18,10 +18,7 @@ let winSound = new Audio('sounds/win.mp3');
 let drawSound = new Audio('sounds/draw.mp3');
 let loseSound = new Audio('sounds/lose.mp3');
 
-if (!player || (player !== 'X' && player !== 'O')) {
-    alert('Please provide a valid player in the URL, e.g., ?player=X or ?player=O');
-    throw new Error('Invalid player');
-}
+
 // function for creating the board
 function createBoard() {
     board.innerHTML = '';
