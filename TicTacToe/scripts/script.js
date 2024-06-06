@@ -67,7 +67,7 @@ function fetchGameState() {
             let response = JSON.parse(xhr.responseText);
             updateBoard(response.board);
             currentPlayer = response.currentPlayer;
-            turnDisplay.textContent = currentPlayer === 'X' ? 'Player 1\'s turn (X)' : 'Player 2\'s turn (O)';
+            turnDisplay.textContent = currentPlayer === 'X'? 'Player 1\'s turn (X)' : 'Player 2\'s turn (O)';
 
             if (!gameOver) {
                 if (response.winner) {
@@ -78,14 +78,18 @@ function fetchGameState() {
                         playerOWins.textContent = parseInt(playerOWins.textContent) + 1;
                         lastLoser = 'X'; // X lost
                     }
-                    message.textContent = 'Player ' + response.winner + ' wins!';
-                    overlay.style.display = 'block';
-                    message.style.display = 'block';
-                    winSound.play();
-                    setTimeout(hideMessage, 2000);
-                    resetButton.style.display = 'block';
-                    gameOver = true;
-                    setTimeout(resetGame, 2000);
+                    let winningCells = getWinningCells(response.board, response.winner);
+                    highlightWinningCells(winningCells);
+                    setTimeout(function() {
+                        message.textContent = 'Player ' + response.winner + ' wins!';
+                        overlay.style.display = 'block';
+                        message.style.display = 'block';
+                        winSound.play();
+                        setTimeout(hideMessage, 2000);
+                        resetButton.style.display = 'block';
+                        gameOver = true;
+                        setTimeout(resetGame, 2000);
+                    }, winningCells.length * 500); // wait for all cells to be highlighted
                 } else if (response.draw) {
                     message.textContent = 'It\'s a draw!';
                     overlay.style.display = 'block';
@@ -104,6 +108,26 @@ function fetchGameState() {
     xhr.send();
 }
 
+function getWinningCells(board, winner) {
+    let winningCells = [];
+    for (let i = 0; i < 9; i++) {
+        if (board[i] === winner) {
+            winningCells.push(i);
+        }
+    }
+    return winningCells;
+}
+
+function highlightWinningCells(cells) {
+    let delay = 0;
+    cells.forEach((cellIndex) => {
+        setTimeout(function() {
+            let cell = document.querySelector(`[data-index="${cellIndex}"]`);
+            cell.style.backgroundColor = 'green';
+        }, delay);
+        delay += 500; // add 500ms delay between each cell highlight
+    });
+}
 function updateBoard(boardState) {
     let cells = document.querySelectorAll('.cell');
     cells.forEach((cell, index) => {
